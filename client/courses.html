@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Grid Page</title>
+    <style>
+      /* CSS styles go here */
+      body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        margin: 0px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+      }
+      .grid-item {
+        background-color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+      .grid-item img {
+        width: 100%;
+      }
+      .navbar {
+        background-color: #333;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        position: relative;
+      }
+      .navbar a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+      }
+      .navbar .account {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #fff;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+
+    <nav class="navbar">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#" class="account">Account</a>
+    </nav>
+
+    <div class="grid">
+      <div class="grid-item">
+        <img src="image1.jpg" alt="image 1">
+        <h2>Image 1</h2>
+        <p>Description of image 1</p>
+      </div>
+      <div class="grid-item">
+        <img src="image2.jpg" alt="image 2">
+        <h2>Image 2</h2>
+        <p>Description of image 2</p>
+      </div>
+      <div class="grid-item">
+        <img src="image3.jpg" alt="image 3">
+        <h2>Image 3</h2>
+        <p>Description of image 3</p>
+      </div>
+      <div class="grid-item">
+        <img src="image4.jpg" alt="image 4">
+        <h2>Image 4</h2>
+        <p>Description of image 4</p>
+      </div>
+      <div class="grid-item">
+        <img src="image5.jpg" alt="image 5">
+        <h2>Image 5</h2>
+        <p>Description of image 5</p>
+      </div>
+      <div class="grid-item">
+        <img src="image6.jpg" alt="image 6">
+        <h2>Image 6</h2>
+        <p>Description of image 6</p>
+      </div>
+    </div>
+  </body>
+</html>

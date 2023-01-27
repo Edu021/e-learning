@@ -1,58 +1,69 @@
 const mysql = require('mysql');
 const credential = require('./credentials');
 
-// Create a connection to the database
 const connection = mysql.createConnection({
-    host: credential.host,
-    user: credential.user,
-    password: credential.password,
-    database: credential.database
+  host: credential.host,
+  user: credential.user,
+  password: credential.password,
+  database: credential.database
 });
 
-// Connect to the database
-connection.connect();
-
-// Create a new record
-const createRecord = (data) => {
-  const sql = 'INSERT INTO users SET ?';
-  connection.query(sql, data, (error, results, fields) => {
-    if (error) throw error;
-    console.log('Record created: ', results.insertId);
-  });
+// Function to perform CRUD operations
+const crud = {
+  create: (data, table, callback) => {
+      const query = `INSERT INTO ${table} SET ?`;
+      connection.query(query, data, (error, results) => {
+          if (error) {
+              callback(error);
+          } else {
+              callback(null, results);
+          }
+      });
+  },
+  read: (table, fields, callback) => {
+      const query = `SELECT ? FROM ${table}`;
+      connection.query(query, fields, (error, results) => {
+          if (error) {
+              callback(error);
+          } else {
+              callback(null, results);
+          }
+      });
+  },
+  readFilter: (table, fields, filter, callback) => {
+    // convert the fields array to a string
+    fields = fields.join(', ');
+    // create the query string
+    const query = `SELECT ${fields} FROM ${table} WHERE ${filter}`;
+    // execute the query
+    connection.query(query, (error, results) => {
+        if (error) {
+            callback(error);
+        } else {
+            callback(null, results);
+        }
+    });
+  },
+  update: (data, table, id, callback) => {
+      const query = `UPDATE ${table} SET ? WHERE id = ${id}`;
+      connection.query(query, data, (error, results) => {
+          if (error) {
+              callback(error);
+          } else {
+              callback(null, results);
+          }
+      });
+  },
+  delete: (table, id, callback) => {
+      const query = `DELETE FROM ${table} WHERE id = ${id}`;
+      connection.query(query, (error, results) => {
+          if (error) {
+              callback(error);
+          } else {
+              callback(null, results);
+          }
+      });
+  }
 }
 
-// Read all records
-const readAllRecords = () => {
-  const sql = 'SELECT * FROM users';
-  connection.query(sql, (error, results, fields) => {
-    if (error) throw error;
-    console.log(results);
-  });
-}
-
-// Update a record
-const updateRecord = (id, data) => {
-  const sql = 'UPDATE users SET ? WHERE user_id = ?';
-  connection.query(sql, [data, id], (error, results, fields) => {
-    if (error) throw error;
-    console.log('Record updated: ', results.affectedRows);
-  });
-}
-
-// Delete a record
-const deleteRecord = (id) => {
-  const sql = 'DELETE FROM users WHERE id_user = ?';
-  connection.query(sql, id, (error, results, fields) => {
-    if (error) throw error;
-    console.log('Record deleted: ', results.affectedRows);
-  });
-}
-
-// EXAMPLES
-//createRecord({username: 'testemaluco', password: 'password233', email: 'testemaluco@example.com'});
-//readAllRecords();
-//updateRecord(5, {username: 'yourbraindead'});
-//deleteRecord(5);
-
-// Disconnect from the database
-connection.end();
+module.exports = crud;
