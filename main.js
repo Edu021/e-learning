@@ -29,29 +29,22 @@ app.get('/courses', (req, res) => {
 
 // REGISTRA USUÁRIO
 app.post('/api/register_user', (req, res) => {
-    let table = 'users';
-    let data = {username: `${req.body.name}`, password: `${req.body.password}`, email: `${req.body.email}`};
-    let fields = ['username','email'];
-    let filter = `username = "${req.body.name}" or email = "${req.body.email}"`;
+    const table = 'users';
+    const data = {username: req.body.name, password: req.body.password, email: req.body.email};
+    const fields = ['username','email'];
+    const filter = `username = "${req.body.name}" or email = "${req.body.email}"`;
     crud.readFilter(table, fields, filter, (error, results) => {
         if (error) {
-            console.error(error);
+            console.log(error);
+        } else if(results.length) {
+            console.log('username or email already in use');
         } else {
-            if(!results) {
-                crud.create(table, data, (error, results) => {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        console.log(results);
-                        console.log(`Registered username: ${data.username}`);
-                    }; 
-                })
-            } else {
-                console.log('email ou usuario ja existe');
-            };
+            crud.create(data, table, (err, res) => {
+                if (err) console.error(err);
+                if (!err) console.log(res);
+            });
         }
     });
-
 });
 
 // RUN
