@@ -37,7 +37,18 @@ app.post('/api/register_user', (req, res) => {
         if (error) {
             console.error(error);
         } else {
-            if(results) console.log('email ou usuario ja existe');
+            if(!results) {
+                crud.create(table, data, (error, results) => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log(results);
+                        console.log(`Registered username: ${data.username}`);
+                    }; 
+                })
+            } else {
+                console.log('email ou usuario ja existe');
+            };
         }
     });
 
