@@ -32,7 +32,7 @@ const readAllRecords = () => {
 
 // Update a record
 const updateRecord = (id, data) => {
-  const sql = 'UPDATE users SET ? WHERE id = ?';
+  const sql = 'UPDATE users SET ? WHERE user_id = ?';
   connection.query(sql, [data, id], (error, results, fields) => {
     if (error) throw error;
     console.log('Record updated: ', results.affectedRows);
@@ -41,12 +41,18 @@ const updateRecord = (id, data) => {
 
 // Delete a record
 const deleteRecord = (id) => {
-  const sql = 'DELETE FROM users WHERE id = ?';
+  const sql = 'DELETE FROM users WHERE id_user = ?';
   connection.query(sql, id, (error, results, fields) => {
     if (error) throw error;
     console.log('Record deleted: ', results.affectedRows);
   });
 }
+
+// EXAMPLES
+//createRecord({username: 'testemaluco', password: 'password233', email: 'testemaluco@example.com'});
+//readAllRecords();
+//updateRecord(5, {username: 'yourbraindead'});
+//deleteRecord(5);
 
 // Disconnect from the database
 connection.end();
